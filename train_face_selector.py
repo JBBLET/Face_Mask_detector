@@ -140,13 +140,11 @@ model = Model(inputs=baseModel.input, outputs=headModel)
 for layer in baseModel.layers:
 	layer.trainable = False
 
-print("[Info] Start Training...")
 
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss="categorical_crossentropy", optimizer=opt,metrics=["accuracy"])
 
 # train the head of the network
-print("[INFO] training head...")
 H = model.fit(
 	aug.flow(trainX, trainY, batch_size=BS),
 	steps_per_epoch=len(trainX) // BS,
@@ -154,7 +152,6 @@ H = model.fit(
 	validation_steps=len(testX) // BS,
 	epochs=EPOCHS)
 
-print("[INFO] evaluating network...")
 predIdxs = model.predict(testX, batch_size=32)
 
 # for each image in the testing set we need to find the index of the
@@ -166,7 +163,6 @@ print(classification_report(testY.argmax(axis=1), predIdxs,
 	target_names=lb.classes_))
 
 # serialize the model to disk
-print("[INFO] saving mask detector model...")
 model.save("Users/jean-baptiste/PycharmProjects/Face_Mask_detector/archive/model/model1.h5")
 
 # plot the training loss and accuracy
