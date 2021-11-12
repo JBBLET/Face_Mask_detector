@@ -163,7 +163,8 @@ print(classification_report(testY.argmax(axis=1), predIdxs,
 	target_names=lb.classes_))
 
 # serialize the model to disk
-model.save("Users/jean-baptiste/PycharmProjects/Face_Mask_detector/archive/model/model1.h5")
+os.chdir('/Users/jean-baptiste/PycharmProjects/Face_Mask_detector/')
+model.save("archive/model/model1.h5")
 
 # plot the training loss and accuracy
 N = EPOCHS
