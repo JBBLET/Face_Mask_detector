@@ -24,13 +24,15 @@ for img in list_files:
         temp.append(str(int(root[i][5][3].text) - int(root[i][5][1].text)))
         info_line += temp
     info_draft.append(" ".join(info_line))
-"""
+    if img != list_files[-1]:
+        info_draft[-1]+= "\n"
+
 os.chdir("/Users/jean-baptiste/PycharmProjects/Face_Mask_detector/archive/")
 file = "pos.dat"
 pos = open(file, "w")
 pos.writelines(info_draft)
 pos.close()
-"""
+
 """
 #Creation of the negative images dataset file only runned once and commented after
 
