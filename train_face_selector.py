@@ -55,7 +55,7 @@ df = pd.DataFrame(csv_draft)
 df.columns = header
 
 #Preparing the data for the training of the model into lists of objects and labels
-classes = ["with_mask", "mask_weared_incorrect", "without_mask"]
+classes = ["with_mask","without_mask", "mask_weared_incorrect"]
 labels = []
 data = []
 
@@ -84,6 +84,8 @@ for index, row in df.iterrows():
                 face = preprocess_input(face)
                 if label != "mask_weared_incorrect" or with_incorrectly_worn_mask:
                     data.append(face)
+                    data.append(face)
+                    labels.append(label)
                     labels.append(label)
             except:
                 pass
@@ -98,7 +100,7 @@ labels = to_categorical(labels)
 
 #Deep learning parameters
 INIT_LR = 1e-4
-EPOCHS = 50
+EPOCHS = 10
 BS = 1
 
 #Create the partition for training and validation
@@ -106,14 +108,8 @@ BS = 1
 
 # construct the training image generator for data augmentation ie create more images to train by slightly modifying
 # images in the dataset
-aug = ImageDataGenerator(
-	rotation_range=20,
-	zoom_range=0.15,
-	width_shift_range=0.2,
-	height_shift_range=0.2,
-	shear_range=0.15,
-	horizontal_flip=True,
-	fill_mode="nearest")
+aug = ImageDataGenerator(rotation_range=20,zoom_range=0.15,width_shift_range=0.2,height_shift_range=0.2,
+                         shear_range=0.15,horizontal_flip=True,fill_mode="nearest")
 
 # load the MobileNetV2 network, ensuring the head FC layer sets are
 # left off
@@ -145,12 +141,8 @@ opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss="categorical_crossentropy", optimizer=opt,metrics=["accuracy"])
 
 # train the head of the network
-H = model.fit(
-	aug.flow(trainX, trainY, batch_size=BS),
-	steps_per_epoch=len(trainX) // BS,
-	validation_data=(testX, testY),
-	validation_steps=len(testX) // BS,
-	epochs=EPOCHS)
+H = model.fit(aug.flow(trainX, trainY, batch_size=BS),steps_per_epoch=len(trainX) // BS,validation_data=(testX, testY),
+              validation_steps=len(testX) // BS,epochs=EPOCHS)
 
 predIdxs = model.predict(testX, batch_size=32)
 
@@ -159,12 +151,11 @@ predIdxs = model.predict(testX, batch_size=32)
 predIdxs = np.argmax(predIdxs, axis=1)
 
 # show a nicely formatted classification report
-print(classification_report(testY.argmax(axis=1), predIdxs,
-	target_names=lb.classes_))
+print(classification_report(testY.argmax(axis=1), predIdxs,target_names=lb.classes_))
 
 # serialize the model to disk
 os.chdir('/Users/jean-baptiste/PycharmProjects/Face_Mask_detector/')
-model.save("archive/model/model1.h5")
+model.save("archive/model/model3.h5")
 
 # plot the training loss and accuracy
 N = EPOCHS
