@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import cv2
 import numpy as np
 
-
+"""
 # file containing the name and the object to analyze
 os.chdir('archive/annotations/')
 list_files = os.listdir()
@@ -33,7 +33,7 @@ pos = open(file, "w")
 pos.writelines(info_draft)
 pos.close()
 
-"""
+
 #Creation of the negative images dataset file only runned once and commented after
 
 os.chdir("/Users/jean-baptiste/PycharmProjects/Face_Mask_detector/archive/negative/")
@@ -43,8 +43,8 @@ file = open("neg.txt", "w")
 for i in range(len(list_files)):
     file.write("negative/"+list_files[i]+"\n")
 file.close()
-"""
 
+"""
 
 
 
