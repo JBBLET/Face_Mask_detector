@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import cv2
 import numpy as np
 
-"""
+
 # file containing the name and the object to analyze
 os.chdir('archive/annotations/')
 list_files = os.listdir()
@@ -44,7 +44,7 @@ for i in range(len(list_files)):
     file.write("negative/"+list_files[i]+"\n")
 file.close()
 
-"""
+
 
 
 
