@@ -1,4 +1,4 @@
-# Face_Mask_detector
+# _ML_Face_Mask_detector
 Trying to build a face mask detector based on machine learning using supervised learning
 
 For the face mask detection we use MobileNetV2 which seems to be light weight and good to use for anylzing images in the event of putting it on a light system.
